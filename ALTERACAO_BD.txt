@@ -1,0 +1,1 @@
+Adicionar o . da casa decimal em todos os capitais sociais menores do que o dia 20/08/2020.
