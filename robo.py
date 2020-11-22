@@ -16,18 +16,18 @@ from base.comandos import update_progress
 
 def movimento_existente(data: str):
     tarefas = 5
-    update_progress(0, tarefas, "Alocando objetos                                       ")
+    update_progress(0, tarefas, "Alocando objetos                                   ")
     email = Email()
     excel = ExcelStuffs()
-    update_progress(1, tarefas, "checando planilhas                                     ")
+    update_progress(1, tarefas, "checando planilhas                                 ")
     excel.checar_plan()
-    update_progress(2, tarefas, "Coletando dados das planilhas                          ")
+    update_progress(2, tarefas, "Coletando dados das planilhas                      ")
     dados = excel.coletando_dados()
-    update_progress(3, tarefas, "coletando informações do banco                         ")
+    update_progress(3, tarefas, "coletando informações do banco                     ")
     movimento = email.coletar_movimento_bd(data)
-    update_progress(4, tarefas, "Criando HTML                                           ")
+    update_progress(4, tarefas, "Criando HTML                                       ")
     html_email = email.montar_html(movimento, dados)
-    update_progress(5, tarefas, "Enviando E-mail                                        ")
+    update_progress(5, tarefas, "Enviando E-mail                                    ")
     email.enviar_email(html_email, dados, data)
 
 
@@ -35,33 +35,33 @@ def movimento_diario():
     """Função principal do sistema
     """
     tarefas = 12
-    update_progress(0, tarefas, "Alocando objetos                                          ")
+    update_progress(0, tarefas, "Alocando objetos                                      ")
     email = Email()
     bd = BancoDados()
     excel = ExcelStuffs()
     robo = Robo()
-    update_progress(1, tarefas, "Checando planilhas                                        ")
+    update_progress(1, tarefas, "Checando planilhas                                    ")
     excel.checar_plan()
-    update_progress(2, tarefas, "Acessando Banco de dados                                  ")
+    update_progress(2, tarefas, "Acessando Banco de dados                              ")
     bd.criar_banco()
-    update_progress(3, tarefas, "Coletando dados das planilhas                              ")
+    update_progress(3, tarefas, "Coletando dados das planilhas                         ")
     dados = excel.coletando_dados()
-    update_progress(4, tarefas, "Checando versões compatíveis - Chrome e Chromedriver     ")
+    update_progress(4, tarefas, "Checando versões compatíveis - Chrome e Chromedriver  ")
     driver = robo.abre_driver()  # abre o driver
     robo.checa_versao(driver)
-    update_progress(5, tarefas, "Logando no valor                                         ")
+    update_progress(5, tarefas, "Logando no valor                                      ")
     robo.login_no_valor(dados['senha valor'], dados['loginvalor'], driver)
-    update_progress(6, tarefas, "Acessando movimento                                      ")
+    update_progress(6, tarefas, "Acessando movimento                                   ")
     robo.acessando_movimento(driver)
-    update_progress(7, tarefas, "procurando datas                                         ")
+    update_progress(7, tarefas, "procurando datas                                      ")
     data_movimento = robo.procurando_movimento(driver)
 
     if data_movimento == date.today().strftime('%d/%m/%Y'):
-        update_progress(8, tarefas, "Coletando informações                                    ")
+        update_progress(8, tarefas, "Coletando informações                            ")
         lista_movimento = robo.coletando_informações(driver)
-        update_progress(9, tarefas, "Tratando textos do movimento                             ")
+        update_progress(9, tarefas, "Tratando textos do movimento                     ")
         lista_movimento = tratamento_texto(lista_movimento, data_movimento, bd=bd)
-        update_progress(10, tarefas, "Lançando dados no banco                                 ")
+        update_progress(10, tarefas, "Lançando dados no banco                         ")
 
         # conecta banco
         try:
@@ -92,10 +92,10 @@ def movimento_diario():
             conn.close()
             print(f'\nRegistro do dia {lista_movimento[1]["Data do pedido"]} salvo no banco')
             data_movimento = datetime.strptime(data_movimento, '%d/%m/%Y').strftime("%Y/%m/%d")
-            update_progress(11, tarefas, "Criando e-mail                                                ")
+            update_progress(11, tarefas, "Criando e-mail                                            ")
             movimento = email.coletar_movimento_bd(data_movimento)
             html_email = email.montar_html(movimento, dados)
-            update_progress(12, tarefas, "Enviando E-mail                                               ")
+            update_progress(12, tarefas, "Enviando E-mail                                           ")
             email.enviar_email(html_email, dados, data_movimento)
 
         else:

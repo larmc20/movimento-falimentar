@@ -57,6 +57,7 @@ class Robo:
         """
 
         try:
+            time.sleep(2)
             botao = driver.find_element_by_id('device-desktop')
             botao.click()
             time.sleep(4)
